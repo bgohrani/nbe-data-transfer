@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle SQL Query</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .code-box {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 8px 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #f8f8f8;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        button:hover {
+            background: #eaeaea;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Oracle SQL Query</h1>
+
+    <div class="code-box">
+
+        <button onclick="copySQL()">Copy</button>
+
+        <pre id="sql">SELECT
+    'SELECT ''' || column_name || ''' AS column_name, ' ||
+    'COUNT(*) AS total_rows, ' ||
+    'COUNT(' || column_name || ') AS non_null_count, ' ||
+    'COUNT(*) - COUNT(' || column_name || ') AS null_count, ' ||
+    'ROUND(COUNT(' || column_name || ') / COUNT(*) * 100, 2) AS fill_rate_pct ' ||
+    'FROM MC_NBE_RETAIL_CUSTOMER_DEMOGRAPHICS UNION ALL'
+FROM user_tab_columns
+WHERE table_name = 'MC_NBE_RETAIL_CUSTOMER_DEMOGRAPHICS'
+ORDER BY column_id;</pre>
+
+    </div>
+
+</div>
+
+<script>
+function copySQL() {
+    const sql = document.getElementById("sql").innerText;
+
+    navigator.clipboard.writeText(sql).then(function() {
+        const button = document.querySelector("button");
+        button.innerText = "Copied!";
+
+        setTimeout(function() {
+            button.innerText = "Copy";
+        }, 1500);
+    });
+}
+</script>
+
+</body>
+</html>
